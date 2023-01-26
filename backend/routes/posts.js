@@ -1,6 +1,26 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
+const multer = require('multer');
+const path = require('path');
+
+// Storage for images
+
+var storage = multer.diskStorage({
+    destination: function(req,file,cb) {
+        cb(null, 'Images/');
+    },
+    filename: function(req,file,cb) {
+        let ext = path.extname(file.originalname);
+        cb(null, Date.now() + ext);
+    }
+});
+
+// Images
+
+var image = multer({
+    storage:storage
+});
 
 // ALL POSTS
 router.get('/', async(req,res) => {
@@ -15,11 +35,14 @@ router.get('/', async(req,res) => {
 
 // CREATE A POST
 
-router.post('/', async (req,res) => {
+router.post('/', image.single('image'), async (req,res) => {
      const post = new Post({
          title: req.body.title,
          description: req.body.description
      });
+     if(req.file) {
+        post.Image = req.file.path;
+     }
      try {
     const savedPost = await post.save();
      res.json(savedPost);
