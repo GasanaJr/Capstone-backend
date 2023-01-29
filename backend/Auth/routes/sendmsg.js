@@ -18,8 +18,8 @@ router.get('/', verify, async (req,res) => {
 // Get a specific message
 router.get('/:msgId', verify, async(req,res) => {
     try {
-        const message = await Message.findOne({_id: req.params.msgId});
-        if(!message) return res.status(400).send("Message Unavailable");
+        const message = await Message.findById(req.params.msgId);
+       // if(!message) return res.status(400).send("Message Unavailable");
         res.json(message)
     } catch (error) {
         res.json({message: error});
