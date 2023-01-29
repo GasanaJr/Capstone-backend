@@ -16,6 +16,7 @@ app.use(bodyParser.json());
 const postsRoute = require('./routes/posts');  
 const authRoute = require('./routes/auth');
 const checkRoute = require('./routes/posts');
+const sendMessage = require('./routes/sendmsg');
 
 // Routes
 
@@ -31,6 +32,7 @@ app.get('/', (req,res) => {
 app.use('/api/user', authRoute);
 //app.use('/api/check', checkRoute);
 app.use('/posts', postsRoute);
+app.use('/message', sendMessage);
 
 
 // DB connection
