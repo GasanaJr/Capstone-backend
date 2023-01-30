@@ -78,6 +78,7 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 router.get('/:postId',verify, async(req,res) => {
     try{
     const post = await Post.findById(req.params.postId);
+    if(!post) return res.status(404).send("No post found");
     res.json(post);
     }catch(err) {
         res.json({message: err});
@@ -89,6 +90,7 @@ router.get('/:postId',verify, async(req,res) => {
 router.delete('/:postId',verify, async(req,res) => {
     try{
     const deletedPost = await Post.remove({ _id: req.params.postId });
+    if(!deletedPost) return res.status(404).send("No post found");
     res.json(deletedPost);
     }catch(err) {
         res.json({message: err});
@@ -121,10 +123,10 @@ router.put('/like/:postId',verify, async(req,res) => {
 
           }
           console.log(post.likes.user);
-        //  post.likes.unshift({user: req.user.user.id});
-        //  await post.save();
-        //  res.json(post.likes);
-        //console.log(post);
+          post.likes.unshift({user: req.user.user.id});
+          await post.save();
+          res.json(post.likes);
+        console.log(post);
         
      } catch (err) {
          console.error(err.message);

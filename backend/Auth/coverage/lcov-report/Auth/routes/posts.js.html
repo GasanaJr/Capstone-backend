@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.59% </span>
+                <span class="strong">19.79% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/88</span>
+                <span class='fraction'>19/96</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/12</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.61% </span>
+                <span class="strong">21.11% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>19/84</span>
+                <span class='fraction'>19/90</span>
             </div>
         
             
@@ -287,7 +287,9 @@
 <a name='L222'></a><a href='#L222'>222</a>
 <a name='L223'></a><a href='#L223'>223</a>
 <a name='L224'></a><a href='#L224'>224</a>
-<a name='L225'></a><a href='#L225'>225</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">3x</span>
@@ -368,6 +370,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -379,6 +382,7 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -410,10 +414,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -591,6 +595,7 @@ router.post('/',image.single('image'),verify, <span class="fstat-no" title="func
 router.get('/:postId',verify, <span class="fstat-no" title="function not covered" >as</span>ync(req,res) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try{</span>
     const post = <span class="cstat-no" title="statement not covered" >await Post.findById(req.params.postId);</span>
+<span class="cstat-no" title="statement not covered" >    if(!post) <span class="cstat-no" title="statement not covered" >return res.status(404).send("No post found");</span></span>
 <span class="cstat-no" title="statement not covered" >    res.json(post);</span>
     }catch(err) {
 <span class="cstat-no" title="statement not covered" >        res.json({message: err});</span>
@@ -602,6 +607,7 @@ router.get('/:postId',verify, <span class="fstat-no" title="function not covered
 router.delete('/:postId',verify, <span class="fstat-no" title="function not covered" >as</span>ync(req,res) =&gt; {
 <span class="cstat-no" title="statement not covered" >    try{</span>
     const deletedPost = <span class="cstat-no" title="statement not covered" >await Post.remove({ _id: req.params.postId });</span>
+<span class="cstat-no" title="statement not covered" >    if(!deletedPost) <span class="cstat-no" title="statement not covered" >return res.status(404).send("No post found");</span></span>
 <span class="cstat-no" title="statement not covered" >    res.json(deletedPost);</span>
     }catch(err) {
 <span class="cstat-no" title="statement not covered" >        res.json({message: err});</span>
@@ -634,10 +640,10 @@ router.put('/like/:postId',verify, <span class="fstat-no" title="function not co
 &nbsp;
           }
 <span class="cstat-no" title="statement not covered" >          console.log(post.likes.user);</span>
-        //  post.likes.unshift({user: req.user.user.id});
-        //  await post.save();
-        //  res.json(post.likes);
-        //console.log(post);
+<span class="cstat-no" title="statement not covered" >          post.likes.unshift({user: req.user.user.id});</span>
+<span class="cstat-no" title="statement not covered" >          await post.save();</span>
+<span class="cstat-no" title="statement not covered" >          res.json(post.likes);</span>
+<span class="cstat-no" title="statement not covered" >        console.log(post);</span>
         
      } catch (err) {
 <span class="cstat-no" title="statement not covered" >         console.error(err.message);</span>
@@ -742,7 +748,7 @@ module.exports = router;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-01-30T12:48:09.307Z
+                at 2023-01-30T16:59:20.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

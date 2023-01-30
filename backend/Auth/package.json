@@ -8,7 +8,7 @@
     "test": "jest --watchAll --coverage --PORT=8080 --timeout=10000"
   },
   "jest": {
-    "preset": "@shelf/jest-mongodb",
+
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"
