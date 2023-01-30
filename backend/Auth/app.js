@@ -3,6 +3,8 @@ const app = express();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const swaggerUi = require('swagger-ui-express');
+const swaggerJsDoc = require('swagger-jsdoc');
 require('dotenv/config');
 
 // Parse data
@@ -23,14 +25,45 @@ app.get('/', (req,res) => {
     res.send("We are on home");
 });
 
-// app.get('/posts', (req,res) => {
-//     res.send("We are on posts");
-// });
+// Swagger codes
+
+const options = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Capstone API documentation (Junior)',
+            version: '1.0.0',
+            description: 'This is where you challenge my API'
+        },
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: 'http',
+                    scheme: 'bearer',
+                    in: 'header',
+                    bearerformat: 'JWT'
+                }
+            }
+        },
+        security: [{
+            bearerAuth: []
+        }],
+        servers: [{
+            url: 'http://localhost:3000'
+        }]
+    },
+    apis: ['./routes/*.js']
+
+}
+
+const specs = swaggerJsDoc(options)
 
 // Route Middlewares
 app.use('/api/user', authRoute);
-//app.use('/api/check', checkRoute);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/posts', postsRoute);
+
+
 
 
 // DB connection
