@@ -36,12 +36,14 @@ app.use('/message', sendMessage);
 
 
 // DB connection
-mongoose.connect(process.env.DB_CONNECTION).then(()=> {
- console.log('Connected to DB');
-}).catch((err)=> {
-    console.log(err);
-}); 
+// mongoose.connect(process.env.DB_CONNECTION).then(()=> {
+//  console.log('Connected to DB');
+// }).catch((err)=> {
+//     console.log(err);
+// }); 
 
 
+const port = process.env.PORT || 4000;
+app.listen(port, () => console.log(`Server started on port ${port}`));
 
-app.listen(3000); 
+module.exports = app;
