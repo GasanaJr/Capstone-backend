@@ -18,6 +18,7 @@ app.use(bodyParser.json());
 const postsRoute = require('./routes/posts');  
 const authRoute = require('./routes/auth');
 const checkRoute = require('./routes/posts');
+const sendMessage = require('./routes/sendmsg');
 
 // Routes
 
@@ -62,6 +63,7 @@ const specs = swaggerJsDoc(options)
 app.use('/api/user', authRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/posts', postsRoute);
+app.use('/message', sendMessage);
 
 
 
