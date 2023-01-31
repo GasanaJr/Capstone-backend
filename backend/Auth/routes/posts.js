@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
-// const multer = require('multer');
-// const path = require('path');
+const multer = require('multer');
+const path = require('path');
 const verify = require('./verifyRoute');
 
-// Storage for images
+ //Storage for images
 
-// var storage = multer.diskStorage({
-//     destination: function(req,file,cb) {
-//         cb(null, 'Images/');
-//     },
-//     filename: function(req,file,cb) {
-//         let ext = path.extname(file.originalname);
-//         cb(null, Date.now() + ext);
-//     }
-// });
+var storage = multer.diskStorage({
+     destination: function(req,file,cb) {
+         cb(null, 'Images/');
+     },
+     filename: function(req,file,cb) {
+         let ext = path.extname(file.originalname);
+         cb(null, Date.now() + ext);
+     }
+ });
 
 
 
