@@ -84,7 +84,7 @@ router.get('/:msgId', verify, async(req,res) => {
 // Sending messages
 /** 
 * @swagger
-* /message:
+* /message/send:
 *  post:
 *    summary: Sending a new message
 *    tags: [Messages]
