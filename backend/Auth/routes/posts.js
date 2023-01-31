@@ -40,6 +40,24 @@ var storage = multer.diskStorage({
 *         application/json:
 *           schema:
 *             type: array
+*     400:
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
+*       content:
+*         application/json:
+*           schema:
+*             type: array
 */
 
 // ALL POSTS
@@ -77,34 +95,32 @@ router.get('/', async(req,res) => {
 *                imageUrl:
 *                  type: string
 *    responses:
-*     200:
+*     201:
 *       description: Post Created Successfully
 *       content:
 *         application/json:
 *           schema:
 *             type: array
 *     400:
-*       description: Post not created
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
 *             type: array
 */
 
-//router.post('/', async (req,res) => {
-     //const post = new Post({
-         //title: req.body.title,
-       //  description: req.body.description
-     //});
-     //if(req.file) {
-      //  post.Image = req.file.path;
-     //}
-     //try {
-    //const savedPost = await post.save();
-     //res.json(savedPost);
-     //}catch(err) {
-      //  res.json({message: err});
-     //}
 
 router.post('/',image.single('image'),verify, async (req,res) => {
     
@@ -141,7 +157,12 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 *      - name: postId
 *        description: Id of the post needed
 *        in: path
-*        required: true    
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true   
 *    responses:
 *     200:
 *       description: This is the post you requested
@@ -150,7 +171,19 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: Post not available
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -181,6 +214,11 @@ router.get('/:postId',verify, async(req,res) => {
 *      - name: postId
 *        description: Id of the post needed
 *        in: path
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
 *        required: true    
 *    responses:
 *     200:
@@ -190,7 +228,19 @@ router.get('/:postId',verify, async(req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: Post not available
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -221,7 +271,12 @@ router.delete('/:postId',verify, async(req,res) => {
 *      - name: postId
 *        description: Id of the post needed
 *        in: path
-*        required: true  
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true 
 *    requestBody:
 *      description: Provide new post details
 *      content:
@@ -243,7 +298,19 @@ router.delete('/:postId',verify, async(req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: Post not Found
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -276,7 +343,12 @@ router.patch('/:postId',verify, async(req,res) => {
 *      - name: postId
 *        description: Id of the post needed
 *        in: path
-*        required: true    
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true  
 *    responses:
 *     200:
 *       description: Post Liked
@@ -285,7 +357,19 @@ router.patch('/:postId',verify, async(req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: Post not available
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -324,7 +408,12 @@ router.put('/like/:postId',verify, async(req,res) => {
 *      - name: postId
 *        description: Id of the post needed
 *        in: path
-*        required: true    
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true   
 *    responses:
 *     200:
 *       description: Post unliked
@@ -333,7 +422,19 @@ router.put('/like/:postId',verify, async(req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: Post not available
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -380,7 +481,12 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 *      - name: postId
 *        description: Id of the post needed
 *        in: path
-*        required: true  
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true 
 *    requestBody:
 *      description: Provide your comment here
 *      content:
@@ -398,7 +504,19 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: Post not Found
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -441,7 +559,12 @@ router.post('/comment/:id',verify, async(req,res) => {
 *      - name: CommentId
 *        description: Id of the comment needed
 *        in: path
-*        required: true  
+*        required: true 
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true 
 *    responses:
 *     200:
 *       description: Comment removed Successfully
@@ -450,7 +573,19 @@ router.post('/comment/:id',verify, async(req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: Post not Found
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -484,11 +619,6 @@ router.post('/comment/:id/:comment_id', verify, async(req,res) => {
         res.status(500).send('Server Error'); 
     }
 });
-
-
-
-
-
 
 
 

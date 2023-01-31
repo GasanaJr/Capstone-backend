@@ -11,6 +11,12 @@ const verify = require('./verifyRoute');
 *    summary: Getting all Messages
 *    tags: [Messages]
 *    description: Returns all Messages
+*    parameters:
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true
 *    responses:
 *     200:
 *       description: These are all the messages available in the database
@@ -44,7 +50,12 @@ router.get('/', verify, async (req,res) => {
 *      - name: msgId
 *        description: Id of the Message needed
 *        in: path
-*        required: true    
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true  
 *    responses:
 *     200:
 *       description: This is the message you requested

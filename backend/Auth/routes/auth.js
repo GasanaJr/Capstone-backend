@@ -58,14 +58,26 @@ router.get('/', async (req,res) => {
 *                password:
 *                  type: string
 *    responses:
-*     200:
+*     201:
 *       description: User Created Successfully
 *       content:
 *         application/json:
 *           schema:
 *             type: array
 *     400:
-*       description: User not created
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:
@@ -127,7 +139,19 @@ router.post('/register',async (req,res) => {
 *           schema:
 *             type: array
 *     400:
-*       description: User Login fail
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
 *       content:
 *         application/json:
 *           schema:

@@ -41,8 +41,9 @@ const options = {
                 bearerAuth: {
                     type: 'http',
                     scheme: 'bearer',
+                    name: 'auth-token',
                     in: 'header',
-                    bearerformat: 'JWT'
+                    bearerFormat: 'JWT'
                 }
             }
         },
