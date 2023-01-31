@@ -87,6 +87,12 @@ router.get('/', async(req,res) => {
 *    summary: Creating a new post
 *    tags: [Posts]
 *    description: Creates a post
+*    parameters:
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true 
 *    requestBody:
 *      description: Provide Blog details
 *      content:
@@ -101,7 +107,7 @@ router.get('/', async(req,res) => {
 *                imageUrl:
 *                  type: string
 *    responses:
-*     201:
+*     200:
 *       description: Post Created Successfully
 *       content:
 *         application/json:
@@ -514,7 +520,7 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 
 /** 
 * @swagger
-* /posts/comment/{id}:
+* /posts/comment/{_id}:
 *  post:
 *    summary: Commenting on a post
 *    tags: [Posts]
