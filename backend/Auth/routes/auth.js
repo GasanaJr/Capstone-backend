@@ -76,6 +76,12 @@ router.get('/', async (req,res) => {
 *         application/json:
 *           schema:
 *             type: array
+*     401:
+*       description: Unauthorized
+*       content:
+*         application/json:
+*           schema:
+*             type: array
 *     404:
 *       description: Not Found
 *       content:
@@ -146,6 +152,12 @@ router.post('/register',async (req,res) => {
 *             type: array
 *     500:
 *       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     401:
+*       description: Unauthorized
 *       content:
 *         application/json:
 *           schema:

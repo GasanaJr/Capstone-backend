@@ -52,6 +52,12 @@ var storage = multer.diskStorage({
 *         application/json:
 *           schema:
 *             type: array
+*     401:
+*       description: Unauthorized
+*       content:
+*         application/json:
+*           schema:
+*             type: array
 *     404:
 *       description: Not Found
 *       content:
@@ -115,6 +121,12 @@ router.get('/', async(req,res) => {
 *             type: array
 *     404:
 *       description: Not Found
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     401:
+*       description: Unauthorized
 *       content:
 *         application/json:
 *           schema:
@@ -188,6 +200,12 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 *         application/json:
 *           schema:
 *             type: array
+*     401:
+*       description: Unauthorized
+*       content:
+*         application/json:
+*           schema:
+*             type: array
 */
 
 
@@ -235,6 +253,12 @@ router.get('/:postId',verify, async(req,res) => {
 *             type: array
 *     500:
 *       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     401:
+*       description: Unauthorized
 *       content:
 *         application/json:
 *           schema:
@@ -309,6 +333,12 @@ router.delete('/:postId',verify, async(req,res) => {
 *         application/json:
 *           schema:
 *             type: array
+*     401:
+*       description: Unauthorized
+*       content:
+*         application/json:
+*           schema:
+*             type: array
 *     404:
 *       description: Not Found
 *       content:
@@ -364,6 +394,12 @@ router.patch('/:postId',verify, async(req,res) => {
 *             type: array
 *     500:
 *       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     401:
+*       description: Unauthorized
 *       content:
 *         application/json:
 *           schema:
@@ -429,6 +465,12 @@ router.put('/like/:postId',verify, async(req,res) => {
 *             type: array
 *     500:
 *       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     401:
+*       description: Unauthorized
 *       content:
 *         application/json:
 *           schema:
@@ -515,6 +557,12 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 *         application/json:
 *           schema:
 *             type: array
+*     401:
+*       description: Unauthorized
+*       content:
+*         application/json:
+*           schema:
+*             type: array
 *     404:
 *       description: Not Found
 *       content:
@@ -580,6 +628,12 @@ router.post('/comment/:id',verify, async(req,res) => {
 *             type: array
 *     500:
 *       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     401:
+*       description: Unauthorized
 *       content:
 *         application/json:
 *           schema:
