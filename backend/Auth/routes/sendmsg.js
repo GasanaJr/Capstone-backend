@@ -4,6 +4,21 @@ const Message = require('../models/Message');
 const verify = require('./verifyRoute');
 
 // Get all messages
+/** 
+* @swagger
+* /message:
+*  get:
+*    summary: Getting all Messages
+*    tags: [Messages]
+*    description: Returns all Messages
+*    responses:
+*     200:
+*       description: These are all the messages available in the database
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 router.get('/', verify, async (req,res) => {
     try {
         const messages = await Message.find();
@@ -16,6 +31,34 @@ router.get('/', verify, async (req,res) => {
 
 
 // Get a specific message
+/** 
+* @swagger
+* /message/{msgId}:
+*  get:
+*    security:
+*      - bearerAuth: []
+*    summary: Getting specific Message
+*    tags: [Messages]
+*    description: Returns a specific Message
+*    parameters:
+*      - name: msgId
+*        description: Id of the Message needed
+*        in: path
+*        required: true    
+*    responses:
+*     200:
+*       description: This is the message you requested
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: Message not available
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 router.get('/:msgId', verify, async(req,res) => {
     try {
         const message = await Message.findById(req.params.msgId);
@@ -28,6 +71,40 @@ router.get('/:msgId', verify, async(req,res) => {
 });
 
 // Sending messages
+/** 
+* @swagger
+* /message:
+*  post:
+*    summary: Sending a new message
+*    tags: [Messages]
+*    description: Sends a message
+*    requestBody:
+*      description: Provide Message details
+*      content:
+*          application/json:
+*            schema:
+*              type: object
+*              properties: 
+*                name:
+*                  type: string
+*                email:
+*                  type: string
+*                content:
+*                  type: string
+*    responses:
+*     200:
+*       description: Message Sent Successfully
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: Message not sent
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 
 router.post('/send', async (req,res) => {
     // Data Validation

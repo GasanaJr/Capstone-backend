@@ -4,6 +4,24 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {registerValidation, loginValidation} = require('./validation');
 
+// Getting All users
+/** 
+* @swagger
+* /api/user:
+*  get:
+*    summary: Getting all Users
+*    tags: [Users]
+*    description: Returns all Users
+*    responses:
+*     200:
+*       description: These are all the users available in the database
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
+
+
 router.get('/', async (req,res) => {
         try {
           const allUsers = await User.find();
@@ -17,6 +35,42 @@ router.get('/', async (req,res) => {
         }
       
 });
+
+// Registration of Users
+/** 
+* @swagger
+* /api/user/register:
+*  post:
+*    summary: Registering a new user
+*    tags: [Users]
+*    description: Creates a new user
+*    requestBody:
+*      description: Provide User details
+*      content:
+*          application/json:
+*            schema:
+*              type: object
+*              properties: 
+*                name:
+*                  type: string
+*                email:
+*                  type: string
+*                password:
+*                  type: string
+*    responses:
+*     200:
+*       description: User Created Successfully
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: User not created
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 
 router.post('/register',async (req,res) => {
 
@@ -47,6 +101,38 @@ router.post('/register',async (req,res) => {
 });
 
 // ----------------------------Login---------------------
+/** 
+* @swagger
+* /api/user/login:
+*  post:
+*    summary: Log in of Users
+*    tags: [Users]
+*    description: Logs a new user
+*    requestBody:
+*      description: Provide Login details
+*      content:
+*          application/json:
+*            schema:
+*              type: object
+*              properties: 
+*                email:
+*                  type: string
+*                password:
+*                  type: string
+*    responses:
+*     200:
+*       description: User Login Successful
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: User Login fail
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 router.post('/login', async(req,res) => {
     // Validating the user
     const {error} = loginValidation(req.body);

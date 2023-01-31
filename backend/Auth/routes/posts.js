@@ -124,17 +124,7 @@ router.post('/',image.single('image'),verify, async (req,res) => {
       }catch(err) {
          res.json({message: err});
       }
-// const post = {    
-//         title: req.body.title,
-//         description: req.body.description
-// }
-// await Post.create(post).then(data => {
-//     res.json(data);
-//     console.log("This is executed");
-// }).catch(err => {
-//     res.json({ message: err});
-//     console.log(err);
-// });
+
 
 });
 
@@ -142,6 +132,8 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 * @swagger
 * /posts/{postId}:
 *  get:
+*    security:
+*      - bearerAuth: []
 *    summary: Getting specific posts
 *    tags: [Posts]
 *    description: Returns a specific posts
@@ -273,6 +265,32 @@ router.patch('/:postId',verify, async(req,res) => {
 });
 
 // LIKING A POST
+/** 
+* @swagger
+* /posts/like/{postId}:
+*  put:
+*    summary: Liking a specific post
+*    tags: [Posts]
+*    description: Likes a specific post
+*    parameters:
+*      - name: postId
+*        description: Id of the post needed
+*        in: path
+*        required: true    
+*    responses:
+*     200:
+*       description: Post Liked
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: Post not available
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 router.put('/like/:postId',verify, async(req,res) => {
     try {
         const post = await Post.findById(req.params.postId);
@@ -283,10 +301,10 @@ router.put('/like/:postId',verify, async(req,res) => {
 
           }
           console.log(post.likes.user);
-        //  post.likes.unshift({user: req.user.user.id});
-        //  await post.save();
-        //  res.json(post.likes);
-        //console.log(post);
+          post.likes.unshift({user: req.user.user.id});
+          await post.save();
+          res.json(post.likes);
+          console.log(post);
         
      } catch (err) {
          console.error(err.message);
@@ -295,6 +313,32 @@ router.put('/like/:postId',verify, async(req,res) => {
 });
 
 // UNLIKING A POST
+/** 
+* @swagger
+* /posts/unlike/{postId}:
+*  put:
+*    summary: Unliking a specific post
+*    tags: [Posts]
+*    description: Unlikes a specific post
+*    parameters:
+*      - name: postId
+*        description: Id of the post needed
+*        in: path
+*        required: true    
+*    responses:
+*     200:
+*       description: Post unliked
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: Post not available
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 
 router.put('/unlike/:postId',verify, async(req,res) => {
     try {
@@ -325,6 +369,42 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 
 // COMMENTS
 
+/** 
+* @swagger
+* /posts/comment/{id}:
+*  post:
+*    summary: Commenting on a post
+*    tags: [Posts]
+*    description: comments on a post
+*    parameters:
+*      - name: postId
+*        description: Id of the post needed
+*        in: path
+*        required: true  
+*    requestBody:
+*      description: Provide your comment here
+*      content:
+*          application/json:
+*            schema:
+*              type: object
+*              properties: 
+*                comment:
+*                  type: string
+*    responses:
+*     200:
+*       description: Comment added Successfully
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: Post not Found
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
+
 router.post('/comment/:id',verify, async(req,res) => {
     try {
         const user = await User.findById(req.user.user.id);
@@ -344,6 +424,38 @@ router.post('/comment/:id',verify, async(req,res) => {
         res.status(500).send('Server Error');
     }
 });
+
+// Removing a comment
+/** 
+* @swagger
+* /posts/comment/{id}/{comment_id}:
+*  post:
+*    summary: Removing a Comment from a post
+*    tags: [Posts]
+*    description: comments on a post
+*    parameters:
+*      - name: postId
+*        description: Id of the post needed
+*        in: path
+*        required: true 
+*      - name: CommentId
+*        description: Id of the comment needed
+*        in: path
+*        required: true  
+*    responses:
+*     200:
+*       description: Comment removed Successfully
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: Post not Found
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
 
 router.post('/comment/:id/:comment_id', verify, async(req,res) => {
     try {
