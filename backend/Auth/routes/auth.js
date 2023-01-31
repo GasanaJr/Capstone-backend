@@ -1,8 +1,22 @@
 const router = require('express').Router();
-const User = require('../models/User');
+//const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {registerValidation, loginValidation} = require('./validation');
+
+router.get('/', async (req,res) => {
+        try {
+          const allUsers = await User.find();
+          if (!allUsers) {
+            res.status(500).json({ message: "Server Error - Try again later." });
+          } else {
+            res.status(200).json(allUsers);
+          }
+        } catch (error) {
+          console.log("Error fetching all users:", error.message);
+        }
+      
+});
 
 router.post('/register',async (req,res) => {
 
@@ -27,7 +41,6 @@ router.post('/register',async (req,res) => {
       });
       try {
           const savedUser = await user.save();
-          res.send({user: user._id});
       } catch(err) {
           res.status(400).send(err);
       }
@@ -45,8 +58,16 @@ router.post('/login', async(req,res) => {
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if(!validPass) return res.status(400).send('Password is incorrect');
     //Create and assign a token
-    const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token',token).send(token);
+    const payload = {
+        user: {
+            id: user.id
+        }
+      }
+     jwt.sign(payload, process.env.TOKEN_SECRET, (err,token) => {
+        if(err) throw err;
+        res.json({token});
+     });
+    // res.header('auth-token',token).send(token);
 
 
 });
