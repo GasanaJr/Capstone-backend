@@ -520,13 +520,13 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 
 /** 
 * @swagger
-* /posts/comment/{_id}:
+* /posts/comment/{id}:
 *  post:
 *    summary: Commenting on a post
 *    tags: [Posts]
 *    description: comments on a post
 *    parameters:
-*      - name: postId
+*      - name: id
 *        description: Id of the post needed
 *        in: path
 *        required: true
@@ -542,7 +542,7 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 *            schema:
 *              type: object
 *              properties: 
-*                comment:
+*                text:
 *                  type: string
 *    responses:
 *     200:

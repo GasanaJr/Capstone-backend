@@ -7,6 +7,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 require('dotenv/config');
 
+
+
 // Parse data
 // Middlewares
 app.use(cors());
@@ -67,15 +69,17 @@ app.use('/posts', postsRoute);
 app.use('/message', sendMessage);
 
 
-
-
-// DB connection
-mongoose.connect(process.env.DB_CONNECTION).then(()=> {
- console.log('Connected to DB');
-}).catch((err)=> {
-    console.log(err);
-}); 
+// DB CONNECTION
+ mongoose.connect(process.env.DB_CONNECTION).then(()=> {
+    console.log('Connected to DB');
+   }).catch((err)=> {
+       console.log(err);
+   }); 
 
 
 
-app.listen(3000); 
+ const PORT = process.env.PORT || 3000;
+ app.listen(PORT);
+
+
+ module.exports = app;
