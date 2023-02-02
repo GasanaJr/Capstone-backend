@@ -38,7 +38,7 @@ describe("USERS Test", () => {
         .post('/api/user/register')
         .send({
             name: "Mocha Chai",
-            email: "mocha1@chai.com",
+            email: "mocha1234@chai.com",
             password: "mochachai"
         })
         .end((err,res) => {
