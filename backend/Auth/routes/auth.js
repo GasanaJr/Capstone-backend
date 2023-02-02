@@ -94,11 +94,11 @@ router.post('/register',async (req,res) => {
 
    //  Data Validation
     const {error} = registerValidation(req.body);
-     if(error) return res.status(400).send(error.details[0].message);
+     if(error) return res.status(400).json(error.details[0].message);
 
      // Checking if a user exists
      const emailExist = await User.findOne({email: req.body.email});
-     if(emailExist) return res.status(400).send('Email already exists');
+     if(emailExist) return res.status(400).json({Message: 'Email already exists'});
 
      //Hashing the passwords
      const salt = await bcrypt.genSalt(10);
@@ -113,9 +113,9 @@ router.post('/register',async (req,res) => {
       });
       try {
           const savedUser = await user.save();
-          res.status(200).send("User Created Successfully");
+          res.status(201).json({Message: "User Created Successfully"});
       } catch(err) {
-          res.status(400).send(err);
+          res.status(400).json(err);
       }
 });
 
@@ -173,13 +173,13 @@ router.post('/register',async (req,res) => {
 router.post('/login', async(req,res) => {
     // Validating the user
     const {error} = loginValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(400).json({Message: error.details[0].message});
     // checking if user exists
     const user = await User.findOne({email: req.body.email});
-    if(!user) return res.status(400).send('Email does not exist');
+    if(!user) return res.status(400).json({Message: 'Email does not exist'});
     // Check password
     const validPass = await bcrypt.compare(req.body.password, user.password);
-    if(!validPass) return res.status(400).send('Password is incorrect');
+    if(!validPass) return res.status(400).json({Message: 'Password is incorrect'});
     //Create and assign a token
     const payload = {
         user: {
@@ -190,7 +190,7 @@ router.post('/login', async(req,res) => {
         if(err) throw err;
         res.json({token});
      });
-    // res.header('auth-token',token).send(token);
+    // res.header('auth-token',token).json(token);
 
 
 });

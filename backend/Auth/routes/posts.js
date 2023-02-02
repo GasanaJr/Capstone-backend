@@ -68,7 +68,7 @@ var storage = multer.diskStorage({
 
 // ALL POSTS
 router.get('/', async(req,res) => {
-   // res.send("We are on posts");
+   // res.json("We are on posts");
    try {
     const posts = await Post.find();
     res.json(posts);
@@ -154,7 +154,7 @@ router.post('/',image.single('image'),verify, async (req,res) => {
       }
       try {
      const savedPost = await post.save();
-      res.json(savedPost);
+      res.status(201).json(savedPost);
       }catch(err) {
          res.json({message: err});
       }
@@ -434,7 +434,7 @@ router.put('/like/:postId',verify, async(req,res) => {
         
      } catch (err) {
          console.error(err.message);
-         res.status(500).send("Server Error");
+         res.status(500).json({Message: "Server Error"});
      }
 });
 
@@ -512,7 +512,7 @@ router.put('/unlike/:postId',verify, async(req,res) => {
         
      } catch (err) {
          console.error(err.message);
-         res.status(500).send("Server Error");
+         res.status(500).json({Message: "Server Error"});
      }
 });
 
@@ -593,7 +593,7 @@ router.post('/comment/:id',verify, async(req,res) => {
         
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        res.status(500).json({Message: 'Server Error'});
     }
 });
 
@@ -676,7 +676,7 @@ router.post('/comment/:id/:comment_id', verify, async(req,res) => {
         
     } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error'); 
+        res.status(500).json({Message: 'Server Error'}); 
     }
 });
 
