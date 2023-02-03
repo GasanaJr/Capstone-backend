@@ -23,7 +23,7 @@ const sendMessage = require('./routes/sendmsg');
 // Routes
 
 app.get('/', (req,res) => {
-    res.send("We are on home");
+    res.json({Message: "We are on home"});
 });
 
 // Swagger codes
@@ -51,7 +51,7 @@ const options = {
             bearerAuth: []
         }],
         servers: [{
-            url: 'http://localhost:3000'
+            url: 'https://capstone-backend-didas.onrender.com'
         }]
     },
     apis: ['./routes/*.js']
@@ -70,12 +70,16 @@ app.use('/message', sendMessage);
 
 
 // DB connection
-mongoose.connect(process.env.DB_CONNECTION).then(()=> {
- console.log('Connected to DB');
-}).catch((err)=> {
-    console.log(err);
-}); 
+try {
+    mongoose.connect(process.env.DB_CONNECTION);
+    console.log('Connected to DB');
+    
+} catch (error) {
+    console.log(error);
+};
+
+const port = process.env.PORT || 3000;
 
 
 
-app.listen(3000); 
+app.listen(port); 
