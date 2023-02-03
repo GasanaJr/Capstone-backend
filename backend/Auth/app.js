@@ -51,7 +51,7 @@ const options = {
             bearerAuth: []
         }],
         servers: [{
-            url: 'https://capstone-backend-didas.onrender.com'
+            url: 'https://junior-capstone-backend.onrender.com/'
         }]
     },
     apis: ['./routes/*.js']
