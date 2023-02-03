@@ -53,7 +53,7 @@ const options = {
             bearerAuth: []
         }],
         servers: [{
-            url: 'http://localhost:3000'
+            url: 'https://junior-capstone-backend.onrender.com/'
         }]
     },
     apis: ['./routes/*.js']
