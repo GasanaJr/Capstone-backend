@@ -134,7 +134,7 @@ router.post('/send', async (req,res) => {
         const savedMessage = await msg.save();
         res.json(savedMessage);
     } catch (error) {
-        res.status(400).send(err);
+        res.status(400).json(err);
         
     }
 

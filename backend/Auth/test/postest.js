@@ -3,20 +3,29 @@
  const mongoose = require('mongoose')
  const chai = require('chai');
  const chaiHttp = require('chai-http');
+ const User = require('../models/User')
  const should = chai.should();
 
  chai.use(chaiHttp);
 
- describe("CRUD Test", () => {
-     // Try Catch block
-      beforeEach(async () => {
-          await mongoose.connect(process.env.DB_CONNECTION).then(()=> {
-              console.log('Connected to DB');
-             }).catch((err)=> {
-                 console.log(err);
-             }); 
-      });
+ describe("CRUD Test", () => {    
      describe("OPERATIONS ON POSTS", ()=> {
+        it("Should first create a user", (done) => {
+            chai.request(app)
+            .post('/api/user/register')
+            .send({
+                name: "Didas Junior Gasana",
+                email: "d.gasana@alustudent.com",
+                password: "helloworld"
+            })
+            .end((err,res) => {
+                if(err) done(err);
+                else {
+                    done();
+                };
+            });
+        });
+
          it("Should return all the saved POSTS on GET /post", (done) => {
              chai.request(app)
              .get('/posts')
@@ -34,12 +43,12 @@
                  }
              });
          });
-         it("Should return a SPECIFIC POST on POST /posts/id", (done) => {
+         it("Should return a SPECIFIC POST on GET /posts/id", (done) => {
              chai.request(app)
              .post('/api/user/login')
              .send({
                  email: "d.gasana@alustudent.com",
-                 password: "whynotme"
+                 password: "helloworld"
              })
              .end((err,res) => {
                  const token  = res.body.token;
@@ -69,7 +78,7 @@
              .post('/api/user/login')
              .send({
                  email: "d.gasana@alustudent.com",
-                 password: "whynotme"
+                 password: "helloworld"
              }).end((err,res) => {
                  chai.request(app)
                  .post('/posts')
@@ -79,7 +88,7 @@
                  })
                  .set('auth-token', `${res.body.token}`)
                  .end((error, response) => {
-                     response.should.have.status(200);
+                     response.should.have.status(201);
                      response.body.should.have.property("title");
                      response.body.should.have.property("description");
                      response.body.should.have.property("_id");
@@ -93,7 +102,7 @@
              .post('/api/user/login')
              .send({
                  email: "d.gasana@alustudent.com",
-                 password: "whynotme"
+                 password: "helloworld"
              }).end((err,res) => {
                  if(err) done(err);
                  else {
@@ -109,9 +118,9 @@
                          .set('auth-token', token)
                          .end((error, response) => {
                              response.should.have.status(200);
-                            // response.body.should.have.property("title");
-                            // response.body.should.have.property("description");
-                            // response.body.should.have.property("_id");
+                            //response.body.should.have.property("title");
+                            //response.body.should.have.property("description");
+                            //response.body.should.have.property("_id");
                              done();
                          });
                      });
@@ -126,7 +135,7 @@
              .post('/api/user/login')
              .send({
                  email: "d.gasana@alustudent.com",
-                 password: "whynotme"
+                 password: "helloworld"
              }).end((err,res) => {
                  if(err) done(err);
                  else {
@@ -139,15 +148,46 @@
                          .set('auth-token', token)
                          .end((error, response) => {
                              response.should.have.status(200);
-                          //   response.body.should.have.property("title");
-                           //  response.body.should.have.property("description");
-                            // response.body.should.have.property("_id");
+                           // response.body.should.have.property("title");
+                           // response.body.should.have.property("description");
+                           // response.body.should.have.property("_id");
                              done();
                          });
                      });
                  }
              });
          });
+
+         it("Should add a COMMENT on A POST on POST /comment/id", (done) => {
+            chai.request(app)
+            .post('/api/user/login')
+            .send({
+                email: "d.gasana@alustudent.com",
+                password: "helloworld"
+            }).end((err,res) => {
+                if(err) done(err);
+                else {
+                    const token = res.body.token;
+                    chai.request(app)
+                    .get('/posts')
+                    .end((er,resp) => {
+                        chai.request(app)
+                        .post('/posts/comment/' + resp.body[0]._id)
+                        .send({
+                            text: "First test comment"
+                        })
+                        .set('auth-token', token)
+                        .end((error, response) => {
+                            response.should.have.status(200);
+                            response.body[0].should.have.property("text");
+                            response.body[0].should.have.property("name");
+                            response.body[0].should.have.property("_id");
+                            done();
+                        });
+                    });
+                }
+            });
+        });
   });
  });
 

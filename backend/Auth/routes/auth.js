@@ -114,7 +114,7 @@ router.post('/register',async (req,res) => {
       });
       try {
           const savedUser = await user.save();
-          res.status(201).json({Message: "User Created Successfully"});
+          res.status(200).json({Message: "User Created Successfully"});
       } catch(err) {
           res.status(400).send(err);
       }
