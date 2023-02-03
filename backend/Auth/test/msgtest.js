@@ -37,7 +37,7 @@ describe("MESSAGE Tests", ()=> {
             const token = res.body.token;
             chai.request(app)
             .get('/message')
-          .set('auth-token', token)
+            .set('auth-token', token)
             .end((error,response) => {
                 if(error) done(error);
                 else {

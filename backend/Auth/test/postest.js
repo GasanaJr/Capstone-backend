@@ -158,6 +158,62 @@
              });
          });
 
+         it("Should ADD A LIKE ON A POST on PUT /posts/like/id", (done) => {
+            chai.request(app)
+            .post('/api/user/login')
+            .send({
+                email: "d.gasana@alustudent.com",
+                password: "helloworld"
+            }).end((err,res) => {
+                if(err) done(err);
+                else {
+                    const token = res.body.token;
+                    chai.request(app)
+                    .get('/posts')
+                    .end((err,res) => {
+                        chai.request(app)
+                        .put('/posts/like/' + res.body[0]._id)
+                        .set('auth-token', token)
+                        .end((error, response) => {
+                            response.should.have.status(200);
+                          // response.body.should.have.property("title");
+                          // response.body.should.have.property("description");
+                          // response.body.should.have.property("_id");
+                            done();
+                        });
+                    });
+                }
+            });
+        });
+
+        it("Should REMOVE A LIKE ON A POST on PUT /posts/unlike/id", (done) => {
+            chai.request(app)
+            .post('/api/user/login')
+            .send({
+                email: "d.gasana@alustudent.com",
+                password: "helloworld"
+            }).end((err,res) => {
+                if(err) done(err);
+                else {
+                    const token = res.body.token;
+                    chai.request(app)
+                    .get('/posts')
+                    .end((err,res) => {
+                        chai.request(app)
+                        .put('/posts/unlike/' + res.body[0]._id)
+                        .set('auth-token', token)
+                        .end((error, response) => {
+                            response.should.have.status(400);
+                          // response.body.should.have.property("title");
+                          // response.body.should.have.property("description");
+                          // response.body.should.have.property("_id");
+                            done();
+                        });
+                    });
+                }
+            });
+        });
+
          it("Should add a COMMENT on A POST on POST /comment/id", (done) => {
             chai.request(app)
             .post('/api/user/login')

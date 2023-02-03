@@ -25,7 +25,7 @@ const sendMessage = require('./routes/sendmsg');
 // Routes
 
 app.get('/', (req,res) => {
-    res.send("We are on home");
+    res.status(200).json({Message: "We are on home"});
 });
 
 // Swagger codes
@@ -70,11 +70,12 @@ app.use('/message', sendMessage);
 
 
 // DB CONNECTION
- mongoose.connect(process.env.DB_CONNECTION).then(()=> {
+try {
+    mongoose.connect(process.env.DB_CONNECTION);
     console.log('Connected to DB');
-   }).catch((err)=> {
-       console.log(err);
-   }); 
+} catch (error) {
+    console.log(error);
+};
 
 
 
