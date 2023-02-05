@@ -68,7 +68,7 @@ var storage = multer.diskStorage({
 
 // ALL POSTS
 router.get('/', async(req,res) => {
-   // res.send("We are on posts");
+   // res.json("We are on posts");
    try {
     const posts = await Post.find();
     res.json(posts);
@@ -154,7 +154,7 @@ router.post('/',image.single('image'),verify, async (req,res) => {
       }
       try {
      const savedPost = await post.save();
-      res.status(201).json({Message: "Post created Successfully"});
+      res.status(201).json(savedPost);
       }catch(err) {
          res.json({Message: err});
       }
@@ -674,11 +674,11 @@ router.post('/comment/:id',verify, async(req,res) => {
 //         res.json(post.comments);
 
         
-//     } catch (err) {
-//         console.error(err.message);
-//         res.status(500).send('Server Error'); 
-//     }
-// });
+    // } catch (err) {
+    //     console.error(err.message);
+    //     res.status(500).json({Message: 'Server Error'}); 
+    // }
+//});
 
 
 
