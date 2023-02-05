@@ -28,9 +28,9 @@ const verify = require('./verifyRoute');
 router.get('/',verify, async (req,res) => {
     try {
         const messages = await Message.find();
-        res.json(messages);
+        res.status(200).json({Message: "All Messages available"});
     } catch (error) {
-        res.json({message: error});
+        res.json({Message: error});
         
     }
 });
@@ -74,9 +74,9 @@ router.get('/:msgId', verify, async(req,res) => {
     try {
         const message = await Message.findById(req.params.msgId);
        // if(!message) return res.status(400).send("Message Unavailable");
-        res.json(message)
+       res.status(200).json({Message: "Message found"});
     } catch (error) {
-        res.json({message: error});
+        res.json({Message: error});
         
     }
 });

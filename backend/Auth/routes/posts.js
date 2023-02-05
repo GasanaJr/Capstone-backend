@@ -154,9 +154,9 @@ router.post('/',image.single('image'),verify, async (req,res) => {
       }
       try {
      const savedPost = await post.save();
-      res.status(201).json(savedPost);
+      res.status(201).json({Message: "Post created Successfully"});
       }catch(err) {
-         res.json({message: err});
+         res.json({Message: err});
       }
 
 
@@ -220,9 +220,9 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 router.get('/:postId',verify, async(req,res) => {
     try{
     const post = await Post.findById(req.params.postId);
-    res.json(post);
+    res.status(200).json({Message: "Post retrieved Successfully"});
     }catch(err) {
-        res.json({message: err});
+        res.json({Message: err});
     }
 });
 
@@ -361,9 +361,9 @@ router.patch('/:postId',verify, async(req,res) => {
         { _id: req.params.postId },
         {$set: {title:req.body.title}}
         );
-    res.json(updatedPost);
+    res.status(200).json({Message: "Post Updated Successfully"});
     }catch(err) {
-        res.json({message: err});
+        res.json({Message: err});
     }
 });
 
@@ -424,12 +424,12 @@ router.put('/like/:postId',verify, async(req,res) => {
         // check if post has been liked before
 
           if(post.likes.find((like) => like.user == req.user.user.id)){
-              return res.status(400).json({msg: "Post already Liked"});
+              return res.status(400).json({Message: "Post already Liked"});
 
           }
           post.likes.unshift({user: req.user.user.id});
           await post.save();
-          res.json(post.likes);
+          res.status(200).json({Message: "Post Liked"});
           console.log(post);
         
      } catch (err) {
@@ -500,14 +500,14 @@ router.put('/unlike/:postId',verify, async(req,res) => {
          if (
              post.likes.filter(like => like.user === req.user.user.id).length === 0
          ) {
-             return res.status(400).json({ msg: "Post has not been Liked yet"});
+             return res.status(400).json({ Message: "Post has not been Liked yet"});
          }
         
         // Get remove index
         const removeIndex = post.likes.map(like => like.user).indexOf(req.body._id);
         post.likes.splice(removeIndex, 1);
         await post.save();
-        res.json(post.likes);
+        res.status(200).json({Message: "Post Unliked"});
 
         
      } catch (err) {
@@ -588,7 +588,7 @@ router.post('/comment/:id',verify, async(req,res) => {
         };
         post.comments.unshift(newComment);
         await post.save();
-        res.json(post.comments)
+        res.status(200).json({Message: 'Comment Added'})
         
         
     } catch (err) {
