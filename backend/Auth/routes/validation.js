@@ -27,7 +27,7 @@ const sendValidation = data => {
     const schema = Joi.object({
         name: Joi.string().min(6).required(),
         email: Joi.string().min(6).required().email(),
-        content: Joi.string().min(5)
+        content: Joi.string().min(5).required()
     });
     return schema.validate(data);
 }

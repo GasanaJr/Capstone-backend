@@ -95,7 +95,7 @@ router.post('/register',async (req,res) => {
 
    //  Data Validation
     const {error} = registerValidation(req.body);
-     if(error) return res.status(400).send(error.details[0].message);
+     if(error) return res.status(400).json({Message: error.details[0].message});
 
      // Checking if a user exists
      const emailExist = await User.findOne({email: req.body.email});
@@ -177,7 +177,7 @@ router.post('/login', async(req,res) => {
     if(error) return res.status(400).send(error.details[0].message);
     // checking if user exists
     const user = await User.findOne({email: req.body.email});
-    if(!user) return res.status(400).json({Message: 'Email does not exist'});
+    if(!user) return res.status(400).json({Message: 'Email is not registered'});
     // Check password
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if(!validPass) return res.status(400).json({Message: 'Password is incorrect'});

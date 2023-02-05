@@ -280,9 +280,9 @@ router.get('/:postId',verify, async(req,res) => {
 router.delete('/:postId',verify, async(req,res) => {
     try{
     const deletedPost = await Post.remove({ _id: req.params.postId });
-    res.json(deletedPost);
+    res.status(200).json({Message: "Post deleted Successfully"});
     }catch(err) {
-        res.json({message: err});
+        res.json({Message: err});
     }
 });
 
@@ -422,11 +422,11 @@ router.put('/like/:postId',verify, async(req,res) => {
         const post = await Post.findById(req.params.postId);
 
         // check if post has been liked before
-          if(post.likes.find(like => like.user === req.user.user.id)){
+
+          if(post.likes.find((like) => like.user == req.user.user.id)){
               return res.status(400).json({msg: "Post already Liked"});
 
           }
-          console.log(post.likes.user);
           post.likes.unshift({user: req.user.user.id});
           await post.save();
           res.json(post.likes);
@@ -498,7 +498,7 @@ router.put('/unlike/:postId',verify, async(req,res) => {
         //      return res.json(400).json({msg: "Post already Liked"});
         //  }
          if (
-             post.likes.filter(like => like.user === req.user.id).length === 0
+             post.likes.filter(like => like.user === req.user.user.id).length === 0
          ) {
              return res.status(400).json({ msg: "Post has not been Liked yet"});
          }
@@ -652,33 +652,33 @@ router.post('/comment/:id',verify, async(req,res) => {
 *             type: array
 */
 
-router.post('/comment/:id/:comment_id', verify, async(req,res) => {
-    try {
-        const post = await Post.findById(req.params.id);
+// router.post('/comment/:id/:comment_id', verify, async(req,res) => {
+//     try {
+//         const post = await Post.findById(req.params.id);
 
-        // GET COMMENT TO BE REMOVED
-        const comment = post.comments.find(comment => comment.id === req.params.comment_id);
-        if(!comment) {
-            return res.status(404).json({message: "Comment does not exist"});
-        }
+//         // GET COMMENT TO BE REMOVED
+//         const comment = post.comments.find(comment => comment.id === req.params.comment_id);
+//         if(!comment) {
+//             return res.status(404).json({message: "Comment does not exist"});
+//         }
 
-        // Check user
-        // if(comment.user !== req.user.user.id) {
-        //     return res.status(401).json({message: "Unauthorized"}); 
-        // }
+//         // Check user
+//         // if(comment.user !== req.user.user.id) {
+//         //     return res.status(401).json({message: "Unauthorized"}); 
+//         // }
 
-        // delete
-        const removeIndex = post.comments.map(comment => comment.user).indexOf(req.user.user.id);
-        post.comments.splice(removeIndex, 1);
-        await post.save();
-        res.json(post.comments);
+//         // delete
+//         const removeIndex = post.comments.map(comment => comment.user).indexOf(req.user.user.id);
+//         post.comments.splice(removeIndex, 1);
+//         await post.save();
+//         res.json(post.comments);
 
         
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server Error'); 
-    }
-});
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error'); 
+//     }
+// });
 
 
 

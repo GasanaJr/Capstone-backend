@@ -23,13 +23,13 @@ const PostSchema = mongoose.Schema({
     },
     likes: [{
       user: {
-        type: ObjectId,
+        type: String,
         ref: 'users'
       }  
     }],
     comments: [{
         user: {
-          type: ObjectId,
+          type: String,
           ref: 'users'
         },
         text: {

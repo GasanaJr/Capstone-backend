@@ -25,7 +25,7 @@ const verify = require('./verifyRoute');
 *           schema:
 *             type: array
 */
-router.get('/', verify, async (req,res) => {
+router.get('/',verify, async (req,res) => {
     try {
         const messages = await Message.find();
         res.json(messages);
@@ -120,7 +120,7 @@ router.get('/:msgId', verify, async(req,res) => {
 router.post('/send', async (req,res) => {
     // Data Validation
     const {error} = sendValidation(req.body);
-    if(error) return res.status(400).send(error.details[0].message);
+    if(error) return res.status(400).json({Message: error.details[0].message});
 
     // Get message
     const msg = new Message({
@@ -138,6 +138,67 @@ router.post('/send', async (req,res) => {
         
     }
 
+});
+
+// DELETE A Message
+/** 
+* @swagger
+* /message/{msgId}:
+*  delete:
+*    summary: Deleting a specific message
+*    tags: [Messages]
+*    description: Deletes a specific message
+*    parameters:
+*      - name: msgId
+*        description: Id of the message needed
+*        in: path
+*        required: true
+*      - name: auth-token
+*        description: Your auth-token
+*        in: header
+*        type: string
+*        required: true    
+*    responses:
+*     200:
+*       description: Message deleted
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     400:
+*       description: Bad Request
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     500:
+*       description: Internal Server Error
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     401:
+*       description: Unauthorized
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*     404:
+*       description: Not Found
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
+
+router.delete('/:msgId',verify, async(req,res) => {
+    try {
+        const deletedMessage = await Message.remove({_id: req.params.msgId});
+        res.status(200).json({Message: "Message deleted"});
+    } catch (error) {
+        res.json({Message: error});
+        
+    }
 });
 
 module.exports = router;
