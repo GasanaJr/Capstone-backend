@@ -7,6 +7,8 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerJsDoc = require('swagger-jsdoc');
 require('dotenv/config');
 
+
+
 // Parse data
 // Middlewares
 app.use(cors());
@@ -23,7 +25,11 @@ const sendMessage = require('./routes/sendmsg');
 // Routes
 
 app.get('/', (req,res) => {
+<<<<<<< HEAD
+    res.status(200).json({Message: "We are on home"});
+=======
     res.json({Message: "We are on home"});
+>>>>>>> develop
 });
 
 // Swagger codes
@@ -67,6 +73,23 @@ app.use('/posts', postsRoute);
 app.use('/message', sendMessage);
 
 
+<<<<<<< HEAD
+// DB CONNECTION
+try {
+    mongoose.connect(process.env.DB_CONNECTION);
+    console.log('Connected to DB');
+} catch (error) {
+    console.log(error);
+};
+
+
+
+ const PORT = process.env.PORT || 3000;
+ app.listen(PORT);
+
+
+ module.exports = app;
+=======
 
 
 // DB connection
@@ -83,3 +106,4 @@ const port = process.env.PORT || 3000;
 
 
 app.listen(port); 
+>>>>>>> develop

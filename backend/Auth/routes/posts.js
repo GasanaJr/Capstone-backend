@@ -156,7 +156,7 @@ router.post('/',image.single('image'),verify, async (req,res) => {
      const savedPost = await post.save();
       res.status(201).json(savedPost);
       }catch(err) {
-         res.json({message: err});
+         res.json({Message: err});
       }
 
 
@@ -220,9 +220,9 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 router.get('/:postId',verify, async(req,res) => {
     try{
     const post = await Post.findById(req.params.postId);
-    res.json(post);
+    res.status(200).json({Message: "Post retrieved Successfully"});
     }catch(err) {
-        res.json({message: err});
+        res.json({Message: err});
     }
 });
 
@@ -280,9 +280,9 @@ router.get('/:postId',verify, async(req,res) => {
 router.delete('/:postId',verify, async(req,res) => {
     try{
     const deletedPost = await Post.remove({ _id: req.params.postId });
-    res.json(deletedPost);
+    res.status(200).json({Message: "Post deleted Successfully"});
     }catch(err) {
-        res.json({message: err});
+        res.json({Message: err});
     }
 });
 
@@ -361,9 +361,9 @@ router.patch('/:postId',verify, async(req,res) => {
         { _id: req.params.postId },
         {$set: {title:req.body.title}}
         );
-    res.json(updatedPost);
+    res.status(200).json({Message: "Post Updated Successfully"});
     }catch(err) {
-        res.json({message: err});
+        res.json({Message: err});
     }
 });
 
@@ -422,14 +422,14 @@ router.put('/like/:postId',verify, async(req,res) => {
         const post = await Post.findById(req.params.postId);
 
         // check if post has been liked before
-          if(post.likes.find(like => like.user === req.user.user.id)){
-              return res.status(400).json({msg: "Post already Liked"});
+
+          if(post.likes.find((like) => like.user == req.user.user.id)){
+              return res.status(400).json({Message: "Post already Liked"});
 
           }
-          console.log(post.likes.user);
           post.likes.unshift({user: req.user.user.id});
           await post.save();
-          res.json(post.likes);
+          res.status(200).json({Message: "Post Liked"});
           console.log(post);
         
      } catch (err) {
@@ -498,16 +498,16 @@ router.put('/unlike/:postId',verify, async(req,res) => {
         //      return res.json(400).json({msg: "Post already Liked"});
         //  }
          if (
-             post.likes.filter(like => like.user === req.user.id).length === 0
+             post.likes.filter(like => like.user === req.user.user.id).length === 0
          ) {
-             return res.status(400).json({ msg: "Post has not been Liked yet"});
+             return res.status(400).json({ Message: "Post has not been Liked yet"});
          }
         
         // Get remove index
         const removeIndex = post.likes.map(like => like.user).indexOf(req.body._id);
         post.likes.splice(removeIndex, 1);
         await post.save();
-        res.json(post.likes);
+        res.status(200).json({Message: "Post Unliked"});
 
         
      } catch (err) {
@@ -520,13 +520,13 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 
 /** 
 * @swagger
-* /posts/comment/{_id}:
+* /posts/comment/{id}:
 *  post:
 *    summary: Commenting on a post
 *    tags: [Posts]
 *    description: comments on a post
 *    parameters:
-*      - name: postId
+*      - name: id
 *        description: Id of the post needed
 *        in: path
 *        required: true
@@ -542,7 +542,7 @@ router.put('/unlike/:postId',verify, async(req,res) => {
 *            schema:
 *              type: object
 *              properties: 
-*                comment:
+*                text:
 *                  type: string
 *    responses:
 *     200:
@@ -588,7 +588,7 @@ router.post('/comment/:id',verify, async(req,res) => {
         };
         post.comments.unshift(newComment);
         await post.save();
-        res.json(post.comments)
+        res.status(200).json({Message: 'Comment Added'})
         
         
     } catch (err) {
@@ -652,33 +652,33 @@ router.post('/comment/:id',verify, async(req,res) => {
 *             type: array
 */
 
-router.post('/comment/:id/:comment_id', verify, async(req,res) => {
-    try {
-        const post = await Post.findById(req.params.id);
+// router.post('/comment/:id/:comment_id', verify, async(req,res) => {
+//     try {
+//         const post = await Post.findById(req.params.id);
 
-        // GET COMMENT TO BE REMOVED
-        const comment = post.comments.find(comment => comment.id === req.params.comment_id);
-        if(!comment) {
-            return res.status(404).json({message: "Comment does not exist"});
-        }
+//         // GET COMMENT TO BE REMOVED
+//         const comment = post.comments.find(comment => comment.id === req.params.comment_id);
+//         if(!comment) {
+//             return res.status(404).json({message: "Comment does not exist"});
+//         }
 
-        // Check user
-        // if(comment.user !== req.user.user.id) {
-        //     return res.status(401).json({message: "Unauthorized"}); 
-        // }
+//         // Check user
+//         // if(comment.user !== req.user.user.id) {
+//         //     return res.status(401).json({message: "Unauthorized"}); 
+//         // }
 
-        // delete
-        const removeIndex = post.comments.map(comment => comment.user).indexOf(req.user.user.id);
-        post.comments.splice(removeIndex, 1);
-        await post.save();
-        res.json(post.comments);
+//         // delete
+//         const removeIndex = post.comments.map(comment => comment.user).indexOf(req.user.user.id);
+//         post.comments.splice(removeIndex, 1);
+//         await post.save();
+//         res.json(post.comments);
 
         
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).json({Message: 'Server Error'}); 
-    }
-});
+    // } catch (err) {
+    //     console.error(err.message);
+    //     res.status(500).json({Message: 'Server Error'}); 
+    // }
+//});
 
 
 
