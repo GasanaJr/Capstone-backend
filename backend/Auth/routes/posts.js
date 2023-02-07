@@ -154,7 +154,7 @@ router.post('/',image.single('image'),verify, async (req,res) => {
       }
       try {
      const savedPost = await post.save();
-      res.status(201).json(savedPost);
+      res.status(201).json({Message: "Post Created Successfully"});
       }catch(err) {
          res.json({Message: err});
       }
@@ -584,7 +584,7 @@ router.post('/comment/:id',verify, async(req,res) => {
         const newComment = {
             text: req.body.text,
             name: user.name,
-            user: user.id
+            id: user.id
         };
         post.comments.unshift(newComment);
         await post.save();
