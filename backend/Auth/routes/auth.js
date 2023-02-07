@@ -45,8 +45,8 @@ router.get('/', async (req,res) => {
 *    tags: [Users]
 *    description: Returns the User requested
 *    parameters:
-*      - name: Id
-*        description: Id of the post needed
+*      - name: id
+*        description: Id of the user needed
 *        in: path
 *        required: true
 *    responses:
