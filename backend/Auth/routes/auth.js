@@ -37,6 +37,44 @@ router.get('/', async (req,res) => {
       
 });
 
+/** 
+* @swagger
+* /api/user/{id}:
+*  get:
+*    summary: Getting one User
+*    tags: [Users]
+*    description: Returns the User requested
+*    parameters:
+*      - name: Id
+*        description: Id of the post needed
+*        in: path
+*        required: true
+*    responses:
+*     200:
+*       description: These are all the users available in the database
+*       content:
+*         application/json:
+*           schema:
+*             type: array
+*/
+
+
+router.get('/:id', async(req,res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
+
+    if (!user) {
+      res.status(404).json({
+        message: "User not found",
+      });
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (error) {
+    console.log("Error while fetching user: ", error.message);
+  }
+})
+
 // Registration of Users
 /** 
 * @swagger
@@ -118,6 +156,20 @@ router.post('/register',async (req,res) => {
       } catch(err) {
           res.status(400).json(err);
       }
+});
+
+// Updating a user
+router.patch('/:id', async(req,res) => {
+
+  try{
+  const updatedUser = await User.updateOne(
+      { _id: req.params.id},
+      {$set: {name:req.body.name}}
+      );
+  res.status(200).json({Message: "User Updated Successfully"});
+  }catch(err) {
+      res.json({Message: err});
+  }
 });
 
 // ----------------------------Login---------------------
