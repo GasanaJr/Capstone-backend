@@ -15,7 +15,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 
-
 //  Import Routes
 
 const postsRoute = require('./routes/posts');  
