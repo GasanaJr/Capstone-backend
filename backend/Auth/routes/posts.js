@@ -145,7 +145,7 @@ router.post('/',upload.single('image'),verify, async (req,res) => {
     
         const user = await User.findById(req.user.user.id).select('-password');
         const result = await cloudinary.uploader.upload(req.file.path);
-      const post = new Post({
+        const post = new Post({
         title: req.body.title,
         description: req.body.description,
         user: user.id,
