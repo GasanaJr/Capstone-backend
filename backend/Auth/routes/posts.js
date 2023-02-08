@@ -1,30 +1,31 @@
+const { result } = require('@hapi/joi/lib/base');
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 const User = require('../models/User');
-const multer = require('multer');
-const path = require('path');
+const cloudinary = require('../util/cloudinary');
+const upload = require('../util/multer');
 const verify = require('./verifyRoute');
 
  //Storage for images
 
-var storage = multer.diskStorage({
-     destination: function(req,file,cb) {
-         cb(null, 'Images/');
-     },
-     filename: function(req,file,cb) {
-         let ext = path.extname(file.originalname);
-         cb(null, Date.now() + ext);
-     }
- });
+// var storage = multer.diskStorage({
+//     //  destination: function(req,file,cb) {
+//     //      cb(null, 'Images/');
+//     //  },
+//      filename: function(req,file,cb) {
+         
+//          cb(null, Date.now() + ext);
+//      }
+//  });
 
 
 
 // Images
 
- var image = multer({
-     storage:storage
- });
+//  var image = multer({
+//      storage:storage
+//  });
 
 /** 
 * @swagger
@@ -140,24 +141,24 @@ router.get('/', async(req,res) => {
 */
 
 
-router.post('/',image.single('image'),verify, async (req,res) => {
+router.post('/',upload.single('image'),verify, async (req,res) => {
     
         const user = await User.findById(req.user.user.id).select('-password');
-        const post = new Post({
-          title: req.body.title,
-          description: req.body.description,
-          user: user.id,
-          name: user.name
-      });
-      if(req.file) {
-         post.Image = req.file.path;
-      }
-      try {
-     const savedPost = await post.save();
-      res.status(201).json({Message: "Post Created Successfully"});
-      }catch(err) {
-         res.json({Message: err});
-      }
+        const result = await cloudinary.uploader.upload(req.file.path);
+      const post = new Post({
+        title: req.body.title,
+        description: req.body.description,
+        user: user.id,
+        name: user.name,
+        Image: result.secure_url,
+        cloudinary_id: result.public_id
+    });
+       try {
+      const savedPost = await post.save();
+       res.status(201).json({Message: "Post Created Successfully"});
+       }catch(err) {
+          res.json({Message: err});
+       }
 
 
 });

@@ -21,6 +21,9 @@ const PostSchema = mongoose.Schema({
         type: ObjectId,
         ref: 'users'
     },
+    cloudinary_id: {
+      type: String
+    },
     likes: [{
       user: {
         type: String,
