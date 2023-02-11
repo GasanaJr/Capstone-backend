@@ -37,7 +37,7 @@ router.post('/', async(req,res) => {
         }
         else {
             console.log("email sent" + info);
-            res.status(201).json('success');
+            res.status(200).json('success');
         }
     });
     const subscribe = new Subscribers({
