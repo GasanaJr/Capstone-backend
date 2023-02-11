@@ -56,7 +56,7 @@ router.get('/', async(req,res) => {
         const subscribers = await Subscribers.find();
         res.json(subscribers);
     } catch (error) {
-        res.json({Message: err});
+        res.json({Message: error});
     }
 })
 

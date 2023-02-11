@@ -2,6 +2,7 @@ const router = require('express').Router();
 const {sendValidation} = require('./validation');
 const Message = require('../models/Message');
 const verify = require('./verifyRoute');
+const nodemailer = require('nodemailer');
 
 // Get all messages
 /** 
@@ -201,6 +202,36 @@ router.delete('/:msgId',verify, async(req,res) => {
         res.json({Message: error});
         
     }
+});
+
+
+router.post('/reply', async(req,res) => {
+
+     const transporter = nodemailer.createTransport({
+         service: 'hotmail',
+         auth: {
+             user: 'capstoneweb@outlook.com',
+             pass: 'Capstoneemailtest@123'
+         }
+     });
+
+    const mailOptions = {
+        from: 'capstoneweb@outlook.com',
+        to: req.body.email,
+        subject: "Reply From Capstone inc",
+        text: req.body.content
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if(error) {
+            console.log(error);
+            res.status(400).json(error);
+        }
+        else {
+            console.log("email sent" + info);
+            res.status(200).json('success');
+        }
+    });
 });
 
 module.exports = router;
