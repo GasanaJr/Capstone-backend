@@ -74,7 +74,7 @@ router.get('/', async(req,res) => {
     const posts = await Post.find();
     res.json(posts);
    } catch (err) {
-    res.json({message: err});
+    res.json({Message: err});
    }
 });
 

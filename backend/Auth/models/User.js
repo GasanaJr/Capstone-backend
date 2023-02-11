@@ -20,6 +20,14 @@ const userSchema = new mongoose.Schema({
         min: 6,
         max: 1024
     },
+    // phone: {
+    //     type: String,
+    //     min: 10,
+    //     required: true
+    // },
+    Image: {
+        type: String
+    },
     date: {
         type: Date,
         default: Date.now

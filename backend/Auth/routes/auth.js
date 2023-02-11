@@ -4,6 +4,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const verify = require('./verifyRoute');
 const {registerValidation, loginValidation} = require('./validation');
+const cloudinary = require('../util/cloudinary');
+const upload = require('../util/multer');
 
 // Getting All users
 /** 
@@ -129,7 +131,7 @@ router.get('/:id', async(req,res) => {
 *             type: array
 */
 
-router.post('/register',async (req,res) => {
+router.post('/register',upload.single('image'),async (req,res) => {
 
    //  Data Validation
     const {error} = registerValidation(req.body);
@@ -144,11 +146,15 @@ router.post('/register',async (req,res) => {
      const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
     // Create a new user
+    const result = await cloudinary.uploader.upload(req.file.path);
 
       const user = new User({
           name: req.body.name,
           email: req.body.email,
-          password: hashedPassword
+         // phone: req.body.phone,
+          password: hashedPassword,
+          Image: result.secure_url,
+          cloudinary_id: result.public_id
       });
       try {
           const savedUser = await user.save();

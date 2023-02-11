@@ -21,6 +21,7 @@ const postsRoute = require('./routes/posts');
 const authRoute = require('./routes/auth');
 const checkRoute = require('./routes/posts');
 const sendMessage = require('./routes/sendmsg');
+const subscribeRoute = require('./routes/subs');
 
 // Routes
 
@@ -67,7 +68,7 @@ app.use('/api/user', authRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 app.use('/posts', postsRoute);
 app.use('/message', sendMessage);
-
+app.use('/subscribe', subscribeRoute);
 
 
 
