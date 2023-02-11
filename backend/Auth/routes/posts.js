@@ -220,7 +220,7 @@ router.post('/',image.single('image'),verify, async (req,res) => {
 router.get('/:postId',verify, async(req,res) => {
     try{
     const post = await Post.findById(req.params.postId);
-    res.status(200).json({Message: "Post retrieved Successfully"});
+    res.status(200).json(post);
     }catch(err) {
         res.json({Message: err});
     }

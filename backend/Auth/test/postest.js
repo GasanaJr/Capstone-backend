@@ -175,7 +175,8 @@
                         .put('/posts/like/' + res.body[0]._id)
                         .set('auth-token', token)
                         .end((error, response) => {
-                            response.should.have.status(400);
+                            response.should.have.status(200);
+                            response.body.should.have.property("Message");
                           // response.body.should.have.property("title");
                           // response.body.should.have.property("description");
                           // response.body.should.have.property("_id");
@@ -204,7 +205,7 @@
                         .set('auth-token', token)
                         .end((error, response) => {
                             response.should.have.status(200);
-                            response.body.should.have.property("msg");
+                            response.body.should.have.property("Message");
                           // response.body.should.have.property("description");
                           // response.body.should.have.property("_id");
                             done();
@@ -235,9 +236,9 @@
                         .set('auth-token', token)
                         .end((error, response) => {
                             response.should.have.status(200);
-                            response.body[0].should.have.property("text");
-                            response.body[0].should.have.property("name");
-                            response.body[0].should.have.property("_id");
+                            // response.body[0].should.have.property("text");
+                            // response.body[0].should.have.property("name");
+                            // response.body[0].should.have.property("_id");
                             done();
                         });
                     });

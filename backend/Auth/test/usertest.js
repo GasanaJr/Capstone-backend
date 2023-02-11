@@ -59,7 +59,7 @@ describe("USERS Test", () => {
         .end((err,res) => {
             if(err) done(err);
             else {
-                res.should.have.status(200);
+                res.should.have.status(201);
                 res.body.should.be.a('object');
                 done();
             }
