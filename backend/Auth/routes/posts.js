@@ -8,23 +8,23 @@ const verify = require('./verifyRoute');
 
  //Storage for images
 
-var storage = multer.diskStorage({
-     destination: function(req,file,cb) {
-         cb(null, 'Images/');
-     },
-     filename: function(req,file,cb) {
-         let ext = path.extname(file.originalname);
-         cb(null, Date.now() + ext);
-     }
- });
+// var storage = multer.diskStorage({
+//      destination: function(req,file,cb) {
+//          cb(null, 'Images/');
+//      },
+//      filename: function(req,file,cb) {
+//          let ext = path.extname(file.originalname);
+//          cb(null, Date.now() + ext);
+//      }
+//  });
 
 
 
 // Images
 
- var image = multer({
-     storage:storage
- });
+//  var image = multer({
+//      storage:storage
+//  });
 
 /** 
 * @swagger
@@ -140,7 +140,7 @@ router.get('/', async(req,res) => {
 */
 
 
-router.post('/',image.single('image'),verify, async (req,res) => {
+router.post('/',verify, async (req,res) => {
     
         const user = await User.findById(req.user.user.id).select('-password');
         const post = new Post({
@@ -149,9 +149,9 @@ router.post('/',image.single('image'),verify, async (req,res) => {
           user: user.id,
           name: user.name
       });
-      if(req.file) {
-         post.Image = req.file.path;
-      }
+    //   if(req.file) {
+    //      post.Image = req.file.path;
+    //   }
       try {
      const savedPost = await post.save();
       res.status(201).json(savedPost);
