@@ -1,19 +1,28 @@
+const { result } = require('@hapi/joi/lib/base');
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 const User = require('../models/User');
-const multer = require('multer');
-const path = require('path');
+const cloudinary = require('../util/cloudinary');
+const upload = require('../util/multer');
 const verify = require('./verifyRoute');
 
  //Storage for images
 
 // var storage = multer.diskStorage({
+
 //      destination: function(req,file,cb) {
 //          cb(null, 'Images/');
 //      },
 //      filename: function(req,file,cb) {
 //          let ext = path.extname(file.originalname);
+
+//     //  destination: function(req,file,cb) {
+//     //      cb(null, 'Images/');
+//     //  },
+//      filename: function(req,file,cb) {
+         
+
 //          cb(null, Date.now() + ext);
 //      }
 //  });
@@ -73,7 +82,7 @@ router.get('/', async(req,res) => {
     const posts = await Post.find();
     res.json(posts);
    } catch (err) {
-    res.json({message: err});
+    res.json({Message: err});
    }
 });
 
@@ -140,9 +149,13 @@ router.get('/', async(req,res) => {
 */
 
 
+
 router.post('/',verify, async (req,res) => {
+
+
     
         const user = await User.findById(req.user.user.id).select('-password');
+        const result = await cloudinary.uploader.upload(req.file.path);
         const post = new Post({
           title: req.body.title,
           description: req.body.description,
@@ -584,7 +597,7 @@ router.post('/comment/:id',verify, async(req,res) => {
         const newComment = {
             text: req.body.text,
             name: user.name,
-            user: user.id
+            id: user.id
         };
         post.comments.unshift(newComment);
         await post.save();
