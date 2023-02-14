@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Subscribers = require('../models/Subscribers');
 const nodemailer = require('nodemailer');
+const verify = require('./verifyRoute');
+
 
 router.post('/', async(req,res) => {
     // var transporter = nodemailer.createTransport({
@@ -51,7 +53,7 @@ router.post('/', async(req,res) => {
     }
 });
 
-router.get('/', async(req,res) => {
+router.get('/',verify, async(req,res) => {
     try {
         const subscribers = await Subscribers.find();
         res.json(subscribers);
