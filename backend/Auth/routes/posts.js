@@ -10,11 +10,19 @@ const verify = require('./verifyRoute');
  //Storage for images
 
 // var storage = multer.diskStorage({
+
+//      destination: function(req,file,cb) {
+//          cb(null, 'Images/');
+//      },
+//      filename: function(req,file,cb) {
+//          let ext = path.extname(file.originalname);
+
 //     //  destination: function(req,file,cb) {
 //     //      cb(null, 'Images/');
 //     //  },
 //      filename: function(req,file,cb) {
          
+
 //          cb(null, Date.now() + ext);
 //      }
 //  });
@@ -141,24 +149,28 @@ router.get('/', async(req,res) => {
 */
 
 
-router.post('/',upload.single('image'),verify, async (req,res) => {
+
+router.post('/',verify, async (req,res) => {
+
+
     
         const user = await User.findById(req.user.user.id).select('-password');
         const result = await cloudinary.uploader.upload(req.file.path);
         const post = new Post({
-        title: req.body.title,
-        description: req.body.description,
-        user: user.id,
-        name: user.name,
-        Image: result.secure_url,
-        cloudinary_id: result.public_id
-    });
-       try {
-      const savedPost = await post.save();
-       res.status(201).json({Message: "Post Created Successfully"});
-       }catch(err) {
-          res.json({Message: err});
-       }
+          title: req.body.title,
+          description: req.body.description,
+          user: user.id,
+          name: user.name
+      });
+    //   if(req.file) {
+    //      post.Image = req.file.path;
+    //   }
+      try {
+     const savedPost = await post.save();
+      res.status(201).json(savedPost);
+      }catch(err) {
+         res.json({Message: err});
+      }
 
 
 });
@@ -221,7 +233,7 @@ router.post('/',upload.single('image'),verify, async (req,res) => {
 router.get('/:postId',verify, async(req,res) => {
     try{
     const post = await Post.findById(req.params.postId);
-    res.status(200).json({Message: "Post retrieved Successfully"});
+    res.status(200).json(post);
     }catch(err) {
         res.json({Message: err});
     }

@@ -53,7 +53,7 @@ describe("MESSAGE Tests", ()=> {
 
         });
     });
-    it("Should return a SPECIFIC MESSAGE on POST /posts/id", (done) => {
+    it("Should return a SPECIFIC MESSAGE on POST /message/id", (done) => {
         chai.request(app)
         .post('/api/user/login')
         .send({
@@ -105,6 +105,38 @@ describe("MESSAGE Tests", ()=> {
             }
         });
 
+    });
+
+    it("Should delete a SPECIFIC MESSAGE on DELETE /message/id", (done) => {
+        chai.request(app)
+        .post('/api/user/login')
+        .send({
+            email: "gasanajr@gmail.com",
+            password: "helloworld"
+        })
+        .end((err,res) => {
+            const token  = res.body.token;
+            chai.request(app)
+            .get('/message')
+            .set('auth-token', token)
+            .end((err,res) => {
+            chai.request(app)
+            .delete('/message/' + res.body[0]._id)
+            .set('auth-token', token)
+            .end((error, response) => {
+                if(error) done(error);
+            else {
+                response.should.have.status(200);
+                response.should.be.json;
+               // response.should.have.property("Message");
+                // response.body.should.have.property("name");
+                // response.body.should.have.property("email");
+                // response.body.should.have.property("content");
+                done();
+            }
+            })
+        })
+        });
     });
 
 });
